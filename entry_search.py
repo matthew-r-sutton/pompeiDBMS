@@ -54,7 +54,7 @@ def entry_search(passthrough_dict):
         set_column_title('Operatore',8,top_frame)
         set_column_title('Domanda',14,top_frame)
 
-        query_dict_list = []
+        queries = []
 
         for field in fields_list:
             # generate field labels
@@ -63,7 +63,7 @@ def entry_search(passthrough_dict):
             # generate operate dropdown menus
             operator = tk.StringVar(frame)
             operator_choices = {'in','non in'}
-            operator.set('=')
+            operator.set('in')
             dropdown_menu = tk.OptionMenu(frame,operator,*operator_choices)
             dropdown_menu.config(font='Helvetica 12')
             menu = dropdown_menu.nametowidget(dropdown_menu.menuname)
@@ -77,11 +77,11 @@ def entry_search(passthrough_dict):
             dropdown_menu.grid(row=row, column=8)
             query.grid(row=row, column=14, columnspan=20, stick='W')
 
-            query_dict = {'name': str(field),
-                          'operator': str(operator.get()),
-                          'query': str(query.get())}
-            query_dict_list.append(query_dict)
-        return query_dict_list
+            query_dict = {'name': field,
+                          'operator': operator,
+                          'query': query}
+            queries.append(query_dict)
+        return queries
 
     def on_configure(event):
         # update scrollregion after starting 'mainloop'
@@ -89,7 +89,7 @@ def entry_search(passthrough_dict):
         top_canvas.configure(scrollregion=top_canvas.bbox('all'))
 
     def generate_results_table():
-        table.create_table(query_dict_list,db)
+        table.create_table(queries_list,db)
 
 
     # create top and bottom canvases with scrollbars
@@ -108,14 +108,12 @@ def entry_search(passthrough_dict):
     top_frame = tk.Frame(top_canvas)
     top_canvas.create_window((0,0), window=top_frame, anchor='nw')
 
-    query_dict_list = generate_interface(top_frame,field_names)
+    queries_list = generate_interface(top_frame,field_names)
 
     search_button = tk.Button(top_frame, text='RICERCA', font='Helvetica 16')
     search_button.grid(column=38,row=(len(field_names)))
 
-
     search_button['command'] = generate_results_table
-
 
     # search_message = tk.Label(bottom_canvas,
     #   text='premere RICERCA per mostrare i risultati', anchor='n',

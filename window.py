@@ -4,6 +4,8 @@ import tkinter.ttk as ttk
 import search_fields
 import entry_search
 
+
+
 #print(un,pw)
 un = "root"
 pw = "Victoria170296!"
@@ -11,10 +13,18 @@ pw = "Victoria170296!"
 main = tk.Tk()
 main.title('')
 
+window_width = main.winfo_reqwidth()
+window_height = main.winfo_reqheight()
+
+position_right = int(main.winfo_screenwidth()/4 - window_width/4)
+position_down = int(main.winfo_screenheight()/4 - window_height/4)
+
+main.geometry("+{}+{}".format(position_right,position_down))
+
 HEIGHT = 450
 WIDTH = 800
 
-canvas = tk.Canvas(main, height=HEIGHT, width=WIDTH)
+canvas = tk.Canvas(main,height=HEIGHT,width=WIDTH)
 canvas.pack()
 
 nb = ttk.Notebook(main)
