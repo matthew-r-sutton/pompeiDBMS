@@ -1,4 +1,4 @@
-def entry_search(passthrough_dict):
+def search(passthrough_dict):
     import tkinter as tk
     import tkinter.ttk as ttk
     import mysql.connector as mysql
@@ -114,9 +114,3 @@ def entry_search(passthrough_dict):
     search_button.grid(column=38,row=(len(field_names)))
 
     search_button['command'] = generate_results_table
-
-    # search_message = tk.Label(bottom_canvas,
-    #   text='premere RICERCA per mostrare i risultati', anchor='n',
-    #   font='Helvetica 15 bold', bg='#d5d5d5'
-    #   )
-    # search_message.place(relx=0.25,rely=0.5)

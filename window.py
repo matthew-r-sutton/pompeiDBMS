@@ -1,10 +1,8 @@
 #def open_window(un, pw):
 import tkinter as tk
 import tkinter.ttk as ttk
-import search_fields
 import entry_search
-
-
+import field_search
 
 #print(un,pw)
 un = "root"
@@ -55,12 +53,18 @@ def tab_change(event):
             'nb':nb,
             'page':page1
         }
-
-        entry_search.entry_search(passthrough_dict)
+        entry_search.search(passthrough_dict)
 
     elif nb.index("current") == 1:
-        frame1 = tk.Frame(page2, bg="green")
-        frame1.place(relx=0.5, rely=0.05, relwidth=0.75, relheight=0.3, anchor='n')
+        passthrough_dict = {
+            'un':un,
+            'pw':pw,
+            'main':main,
+            'canvas':canvas,
+            'nb':nb,
+            'page':page2
+        }
+        field_search.search(passthrough_dict)
 
     elif nb.index("current") == 2:
         frame2 = tk.Frame(page3, bg="red")
