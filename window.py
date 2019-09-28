@@ -3,6 +3,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import entry_search
 import field_search
+import entry_edit
 
 #print(un,pw)
 un = "root"
@@ -67,8 +68,15 @@ def tab_change(event):
         field_search.search(passthrough_dict)
 
     elif nb.index("current") == 2:
-        frame2 = tk.Frame(page3, bg="red")
-        frame2.place(relx=0.5, rely=0.05, relwidth=0.75, relheight=0.3, anchor='n')
+        passthrough_dict = {
+            'un':un,
+            'pw':pw,
+            'main':main,
+            'canvas':canvas,
+            'nb':nb,
+            'page':page3
+        }
+        entry_edit.edit(passthrough_dict)
 
     elif nb.index('current') == 3:
         frame3 = tk.Frame(page4, bg="black")
