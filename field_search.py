@@ -45,8 +45,8 @@ def search(passthrough_dict):
           'FORMA',
           'CHIUSURA',
           'MATERIALE',
-          'COLORE_1',
-          'COLORE_2',
+          'COLORA_1',
+          'COLORA_2',
           'ORNAMENTO']
         field.set('SESSO')
         dropdown_menu = tk.OptionMenu(frame,field,*field_choices)
