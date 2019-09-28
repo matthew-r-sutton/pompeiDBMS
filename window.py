@@ -4,6 +4,7 @@ import tkinter.ttk as ttk
 import entry_search
 import field_search
 import entry_edit
+import add_entry
 
 #print(un,pw)
 un = "root"
@@ -20,7 +21,7 @@ position_down = int(main.winfo_screenheight()/4 - window_height/4)
 
 main.geometry("+{}+{}".format(position_right,position_down))
 
-HEIGHT = 450
+HEIGHT = 600
 WIDTH = 800
 
 canvas = tk.Canvas(main,height=HEIGHT,width=WIDTH)
@@ -79,8 +80,15 @@ def tab_change(event):
         entry_edit.edit(passthrough_dict)
 
     elif nb.index('current') == 3:
-        frame3 = tk.Frame(page4, bg="black")
-        frame3.place(relx=0.5, rely=0.05, relwidth=0.75, relheight=0.3, anchor='n')
+        passthrough_dict = {
+            'un':un,
+            'pw':pw,
+            'main':main,
+            'canvas':canvas,
+            'nb':nb,
+            'page':page4
+        }
+        add_entry.add(passthrough_dict)
 
     elif nb.index('current') == 4:
         frame4 = tk.Frame(page5, bg="brown")
