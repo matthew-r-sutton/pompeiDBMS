@@ -1,40 +1,13 @@
-def search(passthrough_dict):
+def search(db,page):
     import tkinter as tk
     import tkinter.ttk as ttk
-    import mysql.connector as mysql
-    import configparser
-    import field_table
+    import field_search_table
 
-    # read-in keys of passthrough_dict arg
-    un = passthrough_dict['un']
-    pw = passthrough_dict['pw']
-    main = passthrough_dict['main']
-    nb = passthrough_dict['nb']
-    page = passthrough_dict['page']
+    def create_interface(frame):
+        # create field to search label
+        field_label = tk.Label(frame,text="Field to search: ",font="Helvetica 24",bg='#d5d5d5')
 
-    # print(un)
-    # print(pw)
-    # print(main)
-    # print(canvas)
-    # print(nb)
-    # print(page)
-
-    # read-in data need for db connection
-    config = configparser.ConfigParser()
-    config.read('./config.ini')
-
-    # connect to the db
-    db = mysql.connect(
-        host=config['mysql']['host'],
-        user=un,
-        passwd=pw,
-        database="pompei"
-    )
-
-    def generate_interface(frame):
-        label = tk.Label(frame,text="Field to search: ",font="Helvetica 24")
-
-        # generate dropdown
+        # create dropdown
         field = tk.StringVar(frame)
         field_choices = [
           'SESSO',
@@ -45,31 +18,40 @@ def search(passthrough_dict):
           'FORMA',
           'CHIUSURA',
           'MATERIALE',
-          'COLORA_1',
-          'COLORA_2',
-          'ORNAMENTO']
+          'COLORE_1',
+          'COLORE_2',
+          'ORNAMENTO',
+          'STOCK_TOTALE',
+          'IN_STOCK',
+          'RIGA',
+          'MENSOLA'
+          ]
         field.set('SESSO')
         dropdown_menu = tk.OptionMenu(frame,field,*field_choices)
         dropdown_menu.config(font='Helvetica 20')
         menu = dropdown_menu.nametowidget(dropdown_menu.menuname)
         menu.config(font='Helvetica 20')
 
-        # place dropdown menu
-        label.place(relx=0,rely=0,relwidth=0.5,relheight=0.5)
-        dropdown_menu.place(relx=0.5,rely=0,relwidth=0.5,relheight=0.5)
+        # place dropdown menu and field to search label
+        field_label.place(relx=0.25,rely=0.3,relwidth=0.5,relheight=0.1,anchor='center')
+        dropdown_menu.place(relx=0.75,rely=0.3,relwidth=0.45,relheight=0.1,anchor='center')
         return field
 
-    def generate_results_table():
-        field_table.create_table(field,db)
+    def search():
+        field_search_table.create_table(field,db)
 
-    # create frame widgets
-    frame = tk.Frame(page)
+    # create canvas and Frame
+    canvas = tk.Canvas(page)
+    frame = tk.Frame(canvas,bg='#d5d5d5')
 
+    # create the interface
+    field = create_interface(frame)
+
+    # place canvas and pack frame
+    canvas.place(relx=0,rely=0,relwidth=1,relheight=1)
     frame.pack(fill='both',expand=1)
 
-    field = generate_interface(frame)
-
+    # create search button
     search_button = tk.Button(frame, text='Ricerca', font='Helvetica 24')
-    search_button.place(relx=0.5,rely=0.5,relwidth=0.5,relheight=0.5)
-
-    search_button['command'] = generate_results_table
+    search_button.place(relx=0.5,rely=0.6,relwidth=0.2,relheight=0.1,anchor='center')
+    search_button['command'] = search

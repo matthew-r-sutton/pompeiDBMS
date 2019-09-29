@@ -1,15 +1,25 @@
-#def open_window(un, pw):
+#def open_window(db):
 import tkinter as tk
 import tkinter.ttk as ttk
-import entry_search
+import configparser
+import mysql.connector as mysql
+import record_search
 import field_search
-import entry_edit
-import add_entry
-import delete_entry
+import edit_record
+import add_record
+import delete_record
 
-#print(un,pw)
-un = "root"
-pw = "Victoria170296!"
+# read-in data need for db connection
+config = configparser.ConfigParser()
+config.read('./config.ini')
+
+# connect to the db
+db = mysql.connect(
+    host=config['mysql']['host'],
+    user=config['mysql']['user'],
+    passwd=config['mysql']['pass'],
+    database="pompei"
+)
 
 main = tk.Tk()
 main.title('')
@@ -48,59 +58,19 @@ nb.add(page5, text='DELETE A RECORD')
 
 def tab_change(event):
     if nb.index("current") == 0:
-        passthrough_dict = {
-            'un':un,
-            'pw':pw,
-            'main':main,
-            'canvas':canvas,
-            'nb':nb,
-            'page':page1
-        }
-        entry_search.search(passthrough_dict)
+        record_search.search(db,page1)
 
     elif nb.index("current") == 1:
-        passthrough_dict = {
-            'un':un,
-            'pw':pw,
-            'main':main,
-            'canvas':canvas,
-            'nb':nb,
-            'page':page2
-        }
-        field_search.search(passthrough_dict)
+        field_search.search(db,page2)
 
     elif nb.index("current") == 2:
-        passthrough_dict = {
-            'un':un,
-            'pw':pw,
-            'main':main,
-            'canvas':canvas,
-            'nb':nb,
-            'page':page3
-        }
-        entry_edit.edit(passthrough_dict)
+        edit_record.edit(db,page3)
 
     elif nb.index('current') == 3:
-        passthrough_dict = {
-            'un':un,
-            'pw':pw,
-            'main':main,
-            'canvas':canvas,
-            'nb':nb,
-            'page':page4
-        }
-        add_entry.add(passthrough_dict)
+        add_record.add(db,page4)
 
     elif nb.index('current') == 4:
-        passthrough_dict = {
-            'un':un,
-            'pw':pw,
-            'main':main,
-            'canvas':canvas,
-            'nb':nb,
-            'page':page5
-        }
-        delete_entry.delete(passthrough_dict)
+        delete_record.delete(db,page5)
 
 nb.bind("<<NotebookTabChanged>>", tab_change)
 
