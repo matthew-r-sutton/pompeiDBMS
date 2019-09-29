@@ -5,6 +5,7 @@ import entry_search
 import field_search
 import entry_edit
 import add_entry
+import delete_entry
 
 #print(un,pw)
 un = "root"
@@ -91,8 +92,15 @@ def tab_change(event):
         add_entry.add(passthrough_dict)
 
     elif nb.index('current') == 4:
-        frame4 = tk.Frame(page5, bg="brown")
-        frame4.place(relx=0.5, rely=0.05, relwidth=0.75, relheight=0.3, anchor='n')
+        passthrough_dict = {
+            'un':un,
+            'pw':pw,
+            'main':main,
+            'canvas':canvas,
+            'nb':nb,
+            'page':page5
+        }
+        delete_entry.delete(passthrough_dict)
 
 nb.bind("<<NotebookTabChanged>>", tab_change)
 
