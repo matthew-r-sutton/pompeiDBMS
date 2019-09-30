@@ -1,14 +1,13 @@
 def delete(db,page):
     import tkinter as tk
-    import tkinter.ttk as ttk
 
     def create_interface(frame):
         # create field labels and entry boxes
-        ID_label = tk.Label(frame, text="ID to delete: ", font='Helvetica 20',bg='#d5d5d5')
-        ID_entry = tk.Entry(frame, font='Helvetica 20')
+        ID_label = tk.Label(frame, text="ID to delete: ", font='Helvetica 24',bg='#d5d5d5')
+        ID_entry = tk.Entry(frame, font='Helvetica 24')
 
-        ID_label.place(relx=0.25,rely=0.25,relheight=0.1,relwidth=0.45,anchor='center')
-        ID_entry.place(relx=0.75,rely=0.25,relheight=0.1,relwidth=0.45,anchor='center')
+        ID_label.place(relx=0.25,rely=0.4,relheight=0.1,relwidth=0.45,anchor='center')
+        ID_entry.place(relx=0.75,rely=0.4,relheight=0.1,relwidth=0.45,anchor='center')
         return ID_entry
 
     def delete_record():
@@ -41,6 +40,6 @@ def delete(db,page):
     frame.pack(fill='both',expand=1)
 
     # create delete button
-    delete_button = tk.Button(frame, text='Elimina', font='Helvetica 18')
-    delete_button.place(relx=0.5,rely=0.50,relheight=0.1,relwidth=0.2,anchor='center')
+    delete_button = tk.Button(frame, text='Elimina', font='Helvetica 24')
+    delete_button.place(relx=0.5,rely=0.7,relwidth=0.2,relheight=0.1,anchor='center')
     delete_button['command'] = delete_record

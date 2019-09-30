@@ -1,6 +1,5 @@
 def search(db,page):
     import tkinter as tk
-    import tkinter.ttk as ttk
     import field_search_table
 
     def create_interface(frame):
@@ -33,8 +32,8 @@ def search(db,page):
         menu.config(font='Helvetica 20')
 
         # place dropdown menu and field to search label
-        field_label.place(relx=0.25,rely=0.3,relwidth=0.5,relheight=0.1,anchor='center')
-        dropdown_menu.place(relx=0.75,rely=0.3,relwidth=0.45,relheight=0.1,anchor='center')
+        field_label.place(relx=0.25,rely=0.4,relwidth=0.5,relheight=0.1,anchor='center')
+        dropdown_menu.place(relx=0.75,rely=0.4,relwidth=0.45,relheight=0.1,anchor='center')
         return field
 
     def search():
@@ -53,5 +52,5 @@ def search(db,page):
 
     # create search button
     search_button = tk.Button(frame, text='Ricerca', font='Helvetica 24')
-    search_button.place(relx=0.5,rely=0.6,relwidth=0.2,relheight=0.1,anchor='center')
+    search_button.place(relx=0.5,rely=0.7,relwidth=0.2,relheight=0.1,anchor='center')
     search_button['command'] = search

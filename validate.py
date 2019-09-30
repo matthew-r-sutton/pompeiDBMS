@@ -1,56 +1,71 @@
-def validate():
-    import tkinter as tk
-    import mysql.connector as mysql
-    import configparser
-    import window
+import tkinter as tk
+import mysql.connector as mysql
+import configparser
+import window
 
-    HEIGHT = 200
-    WIDTH = 400
+def check(un,pw):
+    # read-in data need for db connection
+    config = configparser.ConfigParser()
+    config.read('./config.ini')
+    try:
+        # connect to the db
+        db = mysql.connect(
+            host=config['mysql']['host'],
+            user=un,
+            passwd=pw,
+            database=config['mysql']['db']
+        )
+        main.destroy()
+        window.open_window(db)
+    except:
+        # initialize warning message
+        warning = tk.Label(frame,font='Helvetica 16',bg='#d5d5d5')
+        warning_2 = tk.Label(frame,font='Helvetica 16',bg='#d5d5d5')
 
-    main = tk.Tk()
-    main.title('ID Validation')
+        # place and fill warning message
+        warning.place(relx=0.5,rely=0.8,relwidth=1,relheight=0.1,anchor='center')
+        warning_2.place(relx=0.5,rely=.9,relwidth=1,relheight=0.1,anchor='center')
+        warning['text'] = "Please check your username and password"
+        warning_2['text'] = 'and try again.'
 
-    canvas = tk.Canvas(main, height=HEIGHT, width=WIDTH)
-    canvas.pack()
+# initialize and format main window
+main = tk.Tk()
+window_width = main.winfo_reqwidth()
+window_height = main.winfo_reqheight()
+position_right = int(main.winfo_screenwidth()/2.5 - window_width/2.5)
+position_down = int(main.winfo_screenheight()/2.5 - window_height/2.5)
+main.geometry("+{}+{}".format(position_right,position_down))
+main.title('ID Validation')
 
-    frame = tk.Frame(main)
-    frame.place(relx=0.5, rely=0.05, relwidth=0.75, relheight=0.3, anchor='n')
+# initialize canvas and frame
+HEIGHT = 300
+WIDTH = 500
+canvas = tk.Canvas(main,height=HEIGHT,width=WIDTH)
+frame = tk.Frame(canvas,bg='#d5d5d5')
 
-    lower_frame = tk.Frame(main)
-    lower_frame.place(relx=0.5, rely=0.5, relwidth=0.75, relheight=0.3, anchor='n')
+# pack canvas and place frame
+canvas.pack(fill='both',expand=1)
+frame.place(relheight=1,relwidth=1)
 
-    e1 = tk.Entry(frame)
-    e1.place(relx=0.3, rely=0.2, relwidth=0.4, relheight=0.25)
-    e1_label = tk.Label(frame)
-    e1_label.place(relx=0.05, rely=0.2, relwidth=0.2, relheight=0.25)
-    e1_label['text'] = "Username : "
+# initialize username and password labels and entry boxes
+username_label = tk.Label(frame,text='Username: ',font='Helvetica 24',bg='#d5d5d5')
+username_entry = tk.Entry(frame,show='*',font='Helvetica 18')
+password_label = tk.Label(frame,text='Password: ',font='Helvetica 24',bg='#d5d5d5')
+password_entry = tk.Entry(frame,show='*',font='Helvetica 18')
 
-    e2 = tk.Entry(frame)
-    e2.place(relx=0.3, rely=0.5, relwidth=0.4, relheight=0.25)
-    e2_label = tk.Label(frame)
-    e2_label.place(relx=0.05, rely=0.5, relwidth=0.2, relheight=0.25)
-    e2_label['text'] = "Password : "
+# initialize validate button
+button = tk.Button(frame,
+                   text='Validate',
+                   font='Helvetica 24',
+                   command=lambda:check(username_entry.get(),password_entry.get()))
 
-    button = tk.Button(main, command=lambda:check(e1.get(),e2.get()))
-    button.place(relx=0.5, rely=0.3, relwidth=0.2, relheight=0.1, anchor='n')
-    button['text'] = "Validate"
+# place username and password labels and entry boxes
+username_label.place(relx=0.25, rely=0.225, relwidth=0.5, relheight=0.1,anchor='center')
+username_entry.place(relx=0.75, rely=0.225, relwidth=0.4, relheight=0.1,anchor='center')
+password_label.place(relx=0.25, rely=0.375, relwidth=0.5, relheight=0.1,anchor='center')
+password_entry.place(relx=0.75, rely=0.375, relwidth=0.4, relheight=0.1,anchor='center')
 
-    warning = tk.Label(lower_frame)
-    warning.place(relwidth=1, relheight=1)
+# place validate button
+button.place(relx=0.5,rely=0.625,relwidth=0.5,relheight=0.2,anchor='center')
 
-    def check(un,pw):
-        config = configparser.ConfigParser()
-        config.read('./config.ini')
-        try:
-            db = mysql.connect(
-                host=config['mysql']['host'],
-                user=un,
-                passwd=pw,
-                database="pompei"
-            )
-            main.destroy()
-            window.open_window(un,pw)
-        except:
-            warning['text'] = "Please check your username and password and try again"
-
-    main.mainloop()
+main.mainloop()

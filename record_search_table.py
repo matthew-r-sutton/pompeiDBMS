@@ -1,7 +1,7 @@
 def create_table(queries_list,db):
     import tkinter as tk
-    from pandastable import Table, TableModel
-    import pandas as pd
+    from pandastable import Table
+    from pandas import read_sql
 
     def create_query_tuple(query):
         queries = query.split(', ')
@@ -9,7 +9,8 @@ def create_table(queries_list,db):
         if len(queries) > 1:
             for i in queries[1:]:
                 string = string + ", '" + i + "'"
-        return string + ")"
+        string = string + ')'
+        return
 
 
     def append_sql_where_statement(where_statement,field,operator,query):
@@ -44,29 +45,10 @@ def create_table(queries_list,db):
         sql_query = sql_query + where_statement + ';'
 
     # read-in data
-    df = pd.read_sql(sql_query,db)
+    df = read_sql(sql_query,db)
 
     # address when no results are returned
-    if df.shape == (0, 17):
-        # create error window and error message
-        error_window = tk.Tk()
-        error_frame = tk.Frame(error_window)
-        error = 'Errore di ricerca. Riprovare.'
-        error_msg = tk.Label(error_frame,text=error,font='Helvetica 20 bold')
-
-        # format error window
-        error_window.title('Errore')
-        window_width = error_window.winfo_reqwidth()
-        window_height = error_window.winfo_reqheight()
-        position_right = int(error_window.winfo_screenwidth()/2 - window_width/2)
-        position_down = int(error_window.winfo_screenheight()/2 - window_height/2)
-        error_window.geometry("+{}+{}".format(position_right,position_down))
-
-        # pack the error frame and message
-        error_frame.pack(fill='both',expand=1)
-        error_msg.pack()
-
-    else:
+    if df.shape != (0, 16):
         # create table window and frame
         table_window = tk.Tk()
         table_frame = tk.Frame(table_window)
@@ -80,8 +62,30 @@ def create_table(queries_list,db):
         table_window.title('Risultati di ricerca')
 
         #create table
-        table = Table(table_frame, datatable_frame=df)
+        table = Table(table_frame, dataframe=df)
         table.show()
 
         #create the table window
         table_frame.pack(fill='both',expand=1)
+
+    else:
+        # create error window and error message
+        error_window = tk.Tk()
+        error_frame = tk.Frame(error_window,bg='#d5d5d5')
+        error = 'Errore di ricerca. Please check that input values'
+        error_2 = 'appear in the corresponding fields.'
+        error_msg = tk.Label(error_frame,text=error,font='Helvetica 20 bold',bg='#d5d5d5')
+        error_msg_2 = tk.Label(error_frame,text=error_2,font='Helvetica 20 bold',bg='#d5d5d5')
+
+        # format error window
+        window_width = error_window.winfo_reqwidth()
+        window_height = error_window.winfo_reqheight()
+        position_right = int(error_window.winfo_screenwidth()/2 - window_width/2)
+        position_down = int(error_window.winfo_screenheight()/2 - window_height/2)
+        error_window.geometry("+{}+{}".format(position_right,position_down))
+        error_window.title('Errore')
+
+        # pack the error frame and message
+        error_frame.pack(fill='both',expand=1)
+        error_msg.pack()
+        error_msg_2.pack()
