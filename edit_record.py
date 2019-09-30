@@ -1,6 +1,5 @@
 def edit(db,page):
     import tkinter as tk
-    import tkinter.ttk as ttk
 
     def create_interface(frame):
         ID_label = tk.Label(frame,text="ID to change: ",font="Helvetica 24",bg='#d5d5d5')

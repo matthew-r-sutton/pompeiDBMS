@@ -1,6 +1,5 @@
 def add(db,page):
     import tkinter as tk
-    import tkinter.ttk as ttk
 
     field_names = [
       'SESSO',
@@ -118,6 +117,6 @@ def add(db,page):
     frame.pack(fill='both',expand=1)
 
     # create add button
-    add_button = tk.Button(frame, text='INSERISCI', font='Helvetica 16 bold')
-    add_button.place(relx=0.5,rely=0.86,relheight=0.1,relwidth=0.2,anchor='center')
+    add_button = tk.Button(frame, text='Inserisci', font='Helvetica 20')
+    add_button.place(relx=0.5,rely=0.9,relwidth=0.25,relheight=0.1,anchor='center')
     add_button['command'] = add_entry

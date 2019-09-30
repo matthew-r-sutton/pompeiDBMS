@@ -7,7 +7,6 @@ def create_table(field,db):
     search_field = field.get()
     query = """SELECT DISTINCT """ + search_field + """ FROM pompei.scarpa;"""
 
-
     # read-in data
     df = read_sql(query,db)
 

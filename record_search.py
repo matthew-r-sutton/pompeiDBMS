@@ -1,6 +1,5 @@
 def search(db,page):
     import tkinter as tk
-    import tkinter.ttk as ttk
     import record_search_table
 
     field_names = [
@@ -63,7 +62,7 @@ def search(db,page):
         return queries
 
     def search():
-        record_search_table.create_table(queries_list,db)
+        record_search_table.create_table(queries,db)
 
     # create top and bottom canvases with scrollbars
     canvas = tk.Canvas(page)
@@ -74,9 +73,9 @@ def search(db,page):
     frame.pack(fill='both',expand=1)
 
     # create interface
-    queries_list = create_interface(frame,field_names)
+    queries = create_interface(frame,field_names)
 
     # create search button
-    search_button = tk.Button(frame, text='RICERCA', font='Helvetica 16 bold')
+    search_button = tk.Button(frame, text='Ricerca', font='Helvetica 20')
     search_button.place(relx=0.5,rely=0.9,relwidth=0.25,relheight=0.1,anchor='center')
     search_button['command'] = search
