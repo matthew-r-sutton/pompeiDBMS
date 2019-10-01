@@ -1,4 +1,4 @@
-def open_window(db):
+def dbms(db):
     import tkinter as tk
     import tkinter.ttk as ttk
     import record_search
